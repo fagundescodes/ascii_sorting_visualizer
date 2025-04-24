@@ -35,12 +35,12 @@ fn visualize(arr: &[i32], visual_1: usize, visual_2: usize) {
     clear_log();
 
     for (i, &val) in arr.iter().enumerate() {
-        print!("{:2} |", val);
+        print!("{:2} │", val);
         for _ in 0..val {
             if i == visual_1 || i == visual_2 {
-                print!("{}", "#".blue());
+                print!("{}", "▇".red());
             } else {
-                print!("{}", "-".yellow());
+                print!("{}", "▇".blue());
             }
         }
         println!();
