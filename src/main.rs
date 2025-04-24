@@ -4,6 +4,7 @@ use std::{
     time::Duration,
 };
 
+use colored::Colorize;
 use crossterm::{
     cursor::MoveTo,
     execute,
@@ -22,7 +23,6 @@ fn bubble_sort(arr: &mut [i32]) {
     for i in 0..len {
         for j in 0..len - i - 1 {
             visualize(arr, j, j + 1);
-            // println!("{:?}, {:?}", j, j+1);
             if arr[j + 1] < arr[j] {
                 arr.swap(j, j + 1);
             }
@@ -38,9 +38,9 @@ fn visualize(arr: &[i32], visual_1: usize, visual_2: usize) {
         print!("{:2} |", val);
         for _ in 0..val {
             if i == visual_1 || i == visual_2 {
-                print!("#");
+                print!("{}", "#".blue());
             } else {
-                print!("-");
+                print!("{}", "-".yellow());
             }
         }
         println!();
