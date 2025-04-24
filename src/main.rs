@@ -22,22 +22,22 @@ fn bubble_sort(arr: &mut [i32]) {
     let len = arr.len();
     for i in 0..len {
         for j in 0..len - i - 1 {
-            visualize(arr, j, j + 1);
+            visualize(arr, Some(j), Some(j + 1));
             if arr[j + 1] < arr[j] {
                 arr.swap(j, j + 1);
             }
         }
     }
-    visualize(arr, 0, 0);
+    visualize(arr, None, None);
 }
 
-fn visualize(arr: &[i32], visual_1: usize, visual_2: usize) {
+fn visualize(arr: &[i32], visual_1: Option<usize>, visual_2: Option<usize>) {
     clear_log();
 
     for (i, &val) in arr.iter().enumerate() {
         print!("{:2} │", val);
         for _ in 0..val {
-            if i == visual_1 || i == visual_2 {
+            if Some(i) == visual_1 || Some(i) == visual_2 {
                 print!("{}", "▇".red());
             } else {
                 print!("{}", "▇".blue());
@@ -46,7 +46,7 @@ fn visualize(arr: &[i32], visual_1: usize, visual_2: usize) {
         println!();
     }
     stdout().flush().unwrap();
-    sleep(Duration::from_millis(700));
+    sleep(Duration::from_millis(300));
     println!();
 }
 
