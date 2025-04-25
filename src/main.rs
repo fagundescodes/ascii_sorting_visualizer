@@ -1,3 +1,5 @@
+use rand::Rng;
+
 use std::{
     io::{Write, stdout},
     thread::sleep,
@@ -12,7 +14,10 @@ use crossterm::{
 };
 
 fn main() {
-    let mut my_array = [13, 2, 8, 21, 19, 3, 4, 1];
+    let mut rng = rand::rng();
+    let random_array: Vec<i32> = (0..10).map(|_| rng.random_range(1..=20)).collect();
+    let mut my_array: [i32; 10] = random_array.try_into().unwrap();
+
     bubble_sort(&mut my_array);
 
     println!("The array sorted is {:?}", my_array);
