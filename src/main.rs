@@ -1,4 +1,4 @@
-use rand::Rng;
+use rand::seq::SliceRandom;
 
 use std::{
     io::{Write, stdout},
@@ -15,8 +15,9 @@ use crossterm::{
 
 fn main() {
     let mut rng = rand::rng();
-    let random_array: Vec<i32> = (0..10).map(|_| rng.random_range(1..=20)).collect();
-    let mut my_array: [i32; 10] = random_array.try_into().unwrap();
+    let mut numbers: Vec<i32> = (1..=20).collect();
+    numbers.shuffle(&mut rng);
+    let mut my_array: Vec<i32> = numbers[0..10].to_vec();
 
     bubble_sort(&mut my_array);
 
