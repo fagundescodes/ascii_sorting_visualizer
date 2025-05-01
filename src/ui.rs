@@ -1,32 +1,38 @@
-use colored::Colorize;
 use crossterm::{
     cursor::MoveTo,
     execute,
     terminal::{Clear, ClearType},
 };
+use ratatui::{
+    Terminal,
+    style::{Color, Style},
+    widgets::{Block, Borders, Paragraph},
+};
 use std::{
-    io::{stdout, Write},
+    io::{self, stdout},
     thread::sleep,
     time::Duration,
 };
 
-pub fn visualize(arr: &[i32], visual_1: Option<usize>, visual_2: Option<usize>) {
-    clear_log();
-
-    for (i, &val) in arr.iter().enumerate() {
-        print!("{:2} │", val);
-        for _ in 0..val {
-            if Some(i) == visual_1 || Some(i) == visual_2 {
-                print!("{}", "▇".red());
-            } else {
-                print!("{}", "▇".blue());
-            }
-        }
-        println!();
-    }
-    stdout().flush().unwrap();
+pub fn render(
+    arr: &[i32],
+    visual_1: Option<usize>,
+    visual_2: Option<usize>,
+    terminal: &mut Terminal<ratatui::backend::CrosstermBackend<std::io::Stdout>>,
+) -> io::Result<()> {
+    terminal.draw(|f| {
+        let text = format!("Array: {:?}", arr);
+        let paragraph = Paragraph::new(text)
+            .block(
+                Block::default()
+                    .title("Sorting Visualizer")
+                    .borders(Borders::ALL),
+            )
+            .style(Style::default().fg(Color::White));
+        f.render_widget(paragraph, f.area());
+    })?;
     sleep(Duration::from_millis(300));
-    println!();
+    Ok(())
 }
 
 pub fn clear_log() {

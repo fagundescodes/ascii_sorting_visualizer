@@ -22,7 +22,7 @@ fn main() -> io::Result<()> {
     numbers.shuffle(&mut rng);
     let mut my_array: Vec<i32> = numbers[0..10].to_vec();
 
-    sort::bubble_sort(&mut my_array);
+    sort::bubble_sort(&mut my_array, &mut terminal)?;
     // sort::insertion_sort(&mut my_array);
     // sort::selection_sort(&mut my_array);
 
