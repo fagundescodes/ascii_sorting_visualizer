@@ -7,14 +7,21 @@ pub enum SortAlgorithm {
     Insertion,
 }
 
+impl SortAlgorithm {
+    pub fn name(&self) -> &'static str {
+        match self {
+            SortAlgorithm::Bubble => "Bubble Sort",
+            SortAlgorithm::Selection => "Selection Sort",
+            SortAlgorithm::Insertion => "Insertion Sort",
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct AppState {
     pub array: Vec<i32>,
     pub algorithm: SortAlgorithm,
-}
-
-pub struct App {
-    pub state: AppState,
+    pub step_count: usize,
 }
 
 impl AppState {
@@ -26,8 +33,13 @@ impl AppState {
         Self {
             array,
             algorithm: SortAlgorithm::Bubble,
+            step_count: 0,
         }
     }
+}
+
+pub struct App {
+    pub state: AppState,
 }
 
 impl App {

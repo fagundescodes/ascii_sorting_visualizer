@@ -6,9 +6,9 @@ use crossterm::{
 use ratatui::{Terminal, backend::CrosstermBackend};
 use std::io::{self, stdout};
 
+mod app;
 mod sort;
 mod ui;
-mod app;
 
 fn main() -> io::Result<()> {
     enable_raw_mode()?;
@@ -24,7 +24,7 @@ fn main() -> io::Result<()> {
 
     let mut app = app::App::new();
     let mut array = app.state.array.clone();
-    sort::bubble_sort(&mut array, &mut terminal)?;
+    sort::bubble_sort(&mut app.state, &mut terminal)?;
     // sort::insertion_sort(&mut my_array);
     // sort::selection_sort(&mut my_array);
 

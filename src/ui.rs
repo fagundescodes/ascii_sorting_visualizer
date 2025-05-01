@@ -14,14 +14,19 @@ use std::{
     time::Duration,
 };
 
+use crate::app::AppState;
+
 pub fn render(
-    arr: &[i32],
-    visual_1: Option<usize>,
-    visual_2: Option<usize>,
+    state: &AppState,
     terminal: &mut Terminal<ratatui::backend::CrosstermBackend<std::io::Stdout>>,
 ) -> io::Result<()> {
     terminal.draw(|f| {
-        let text = format!("Array: {:?}", arr);
+        let text = format!(
+            "{} - Steps: {}\nArray: {:?}",
+            state.algorithm.name(),
+            state.step_count,
+            state.array
+        );
         let paragraph = Paragraph::new(text)
             .block(
                 Block::default()

@@ -2,20 +2,24 @@ use std::io;
 
 use ratatui::Terminal;
 
+use crate::app::AppState;
+
 pub fn bubble_sort(
-    arr: &mut [i32],
+    state: &mut AppState,
     terminal: &mut Terminal<ratatui::backend::CrosstermBackend<std::io::Stdout>>,
 ) -> io::Result<()> {
-    let len = arr.len();
+    let len = state.array.len();
     for i in 0..len {
         for j in 0..len - i - 1 {
-            crate::ui::render(arr, Some(j), Some(j + 1), terminal)?;
-            if arr[j + 1] < arr[j] {
-                arr.swap(j, j + 1);
+            state.step_count += 1;
+            crate::ui::render(state, terminal)?;
+            if state.array[j + 1] < state.array[j] {
+                state.array.swap(j, j + 1);
             }
         }
     }
-    crate::ui::render(arr, None, None, terminal)?;
+    state.step_count += 1;
+    crate::ui::render(state, terminal)?;
     Ok(())
 }
 
