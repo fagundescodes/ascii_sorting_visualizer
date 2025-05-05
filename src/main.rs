@@ -1,40 +1,15 @@
-use crossterm::{
-    event::{DisableMouseCapture, EnableMouseCapture},
-    execute,
-    terminal::{EnterAlternateScreen, LeaveAlternateScreen, disable_raw_mode, enable_raw_mode},
-};
-use ratatui::{Terminal, backend::CrosstermBackend};
-use std::io::{self, stdout};
+use color_eyre::Result;
 
 mod app;
 mod sort;
 mod ui;
 
-fn main() -> io::Result<()> {
-    enable_raw_mode()?;
-    let mut stdout = stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
-
-    // let mut rng = rand::rng();
-    // let mut numbers: Vec<i32> = (1..=20).collect();
-    // numbers.shuffle(&mut rng);
-    // let mut my_array: Vec<i32> = numbers[0..10].to_vec();
+#[tokio::main]
+async fn main() -> Result<()> {
+    color_eyre::install()?;
 
     let mut app = app::App::new();
-    let mut array = app.state.array.clone();
-    sort::bubble_sort(&mut app.state, &mut terminal)?;
-    // sort::insertion_sort(&mut my_array);
-    // sort::selection_sort(&mut my_array);
-
-    disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
+    app.run_ui()?;
 
     Ok(())
 }
